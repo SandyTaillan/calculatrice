@@ -4,6 +4,10 @@
 # Pour le moment, il n'y a qu'un seul fichier.
 # Le setupUi n'est pas séparé du reste car le programme est très petit
 # par contre, quand je vais coder le convertisseur, je scinderai les fichiers pour une meilleure compréhension
+# Le raccourci clavier pour "Enter" ne semble pas fonctionner
+
+
+
 
 from PySide import QtGui, QtCore
 from functools import partial
