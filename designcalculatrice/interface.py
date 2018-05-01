@@ -3,31 +3,79 @@
 
 from PySide import QtCore, QtGui
 
-class Ui_TabWidget(object):
+class design(object):
 
-    def setupUi(self, tabwidget):  # création de la fonction pour tout ce qui est graphique
+    def setupUiGene(self, fenetre):
+        """Création de l'interface graphique : données générale """
 
-        tabwidget.setWindowTitle('La super calculatrice')  # doner un nom à l'application ici tabwidget
-        w = h = 500
-        tabwidget.move(1920 / 2 - w / 2, 1080 / 2 - h / 2)
-        tabwidget.setObjectName("tabwidget")  # Nomme l'objet
-        tabwidget.resize(300, 320)  # taille de ma fenetre en onglet
-        tabwidget.setMinimumSize(QtCore.QSize(290, 320))  # taille minimum de ma fenetre en onglet
+        fenetre.setWindowTitle('La super calculatrice')  # donner un nom à l'application
+        w = 290
+        h = 350
+        fenetre.move(1920 / 2 - w / 2, 1080 / 2 - h / 2)
+        fenetre.setMinimumSize(QtCore.QSize(w, h))  # taille minimum de ma fenetre en onglet
+        fenetre.resize(w, h)
+        # création d'un onglet température
+
+        self.temperature = QtGui.QWidget()
+        fenetre.addTab(self.temperature, "Température")
+
+        fenetre.setCurrentIndex(0)  # indique l'onglet sur lequel ouvrira le programme
+
+
+        # appel des fonctions de chaque onglet
+
+        self.setupUiCalc(fenetre)
+        self.setupUiTemp(fenetre)
+        self.retranslateUi(fenetre)
+
+    def setupUiTemp(self, fenetre):
+
+        '''Création de l'interface graphique pour la température'''
+
+        self.layout = QtGui.QGridLayout(self.temperature)           # création du gridlayout
+
+        # déclaration des variables-design
+        self.la_entrerTemp = QtGui.QLabel(self.temperature)
+        self.le_entrerTemp = QtGui.QLineEdit(self.temperature)
+        self.radioButton_faren_cel = QtGui.QRadioButton(self.temperature)  # création d'un bouton
+        self.radioButton_cel_faren = QtGui.QRadioButton(self.temperature)
+        self.line = QtGui.QFrame(self.temperature)
+        self.la_result = QtGui.QLabel(self.temperature)
+        self.tex_result = QtGui.QLabel(self.temperature)
+
+        #Ajout de mes variables-design avec le layout
+        self.layout.addWidget(self.la_entrerTemp,0, 2, 1, 3)
+        self.layout.addWidget(self.le_entrerTemp,1, 2, 1, 1)
+        self.layout.addWidget(self.radioButton_faren_cel, 2, 1, 1, 3)
+        self.layout.addWidget(self.radioButton_cel_faren, 3, 1, 1, 3)
+        self.layout.addWidget(self.line, 4, 1, 1, 3)
+        self.layout.addWidget(self.la_result, 5, 2, 1, 2)
+        self.layout.addWidget(self.tex_result, 6, 2, 1, 2)
+
+        # déclaration des dimensions des éléments du design
+        self.le_entrerTemp.setMinimumSize(QtCore.QSize(30, 20))
+        self.line.setFrameShape(QtGui.QFrame.HLine)
+        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.tex_result.setAlignment(QtCore.Qt.AlignJustify | QtCore.Qt.AlignHCenter)
+
+        fenetre.addTab(self.temperature, "Température")  # création d'un onglet Calculatrice
+
+
+
+
+
+
+
+    def setupUiCalc(self, fenetre):
+        '''Création de l'interface graphique pour la calculatrice'''
 
         self.calculatrice = QtGui.QWidget()
-        self.convertisseur = QtGui.QWidget()
-
-        self.calculatrice.setObjectName("calculatrice")  # Nomme l'objet calculatrice
-        self.convertisseur.setObjectName("convertisseur")
-
-        # layout = QtGui.QGridLayout(self)                         au lieu  de layout = QtGui.QGridLayout(QtGui.QWidget())
-        tabwidget.addTab(self.calculatrice, "Calculatrice")  # création d'un onglet Calculatrice
-        tabwidget.addTab(self.convertisseur, "Convertisseur")  # création d'un autre onglet Convertisseur
-
-        # Onglet calculatrice
+        fenetre.addTab(self.calculatrice, "Calculatrice")  # création d'un onglet Calculatrice
 
         self.gridLayout = QtGui.QGridLayout(self.calculatrice)  # rajoute un gridlayout sur l'onglet calculatrice
-        self.calculatrice.setMinimumSize(QtCore.QSize(0, 0))
+        self.gridLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
+        self.gridLayout.setSpacing(4)
+        self.gridLayout.setContentsMargins(6, -1, 6, -1)
 
         self.btn_1 = QtGui.QPushButton('1', self.calculatrice)  # assigne btn_1 à calculatrice
         # self.btn_1.setObjectName("btn_1")                        # nomme btn_1 mais pas utile dans ce cas de figure
@@ -126,8 +174,7 @@ class Ui_TabWidget(object):
         self.resultat = QtGui.QLineEdit('0', self.calculatrice)
         # self.resultat.setObjectName("resultat")
         self.gridLayout.addWidget(self.resultat, 1, 0, 2, 7)
-        self.resultat.setAlignment(
-            QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)  # alignement texte
+        self.resultat.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)  # alignement texte
         font = QtGui.QFont()
         font.setPointSize(13)
         font.setWeight(75)
@@ -139,3 +186,15 @@ class Ui_TabWidget(object):
         spacerItem2 = QtGui.QSpacerItem(1, 223, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 4, 4, 4, 1)
 
+
+    # Problème de codage en UTF8 pour les accents
+    def retranslateUi(self, fenetre):
+
+        # Pour l'onglet température
+        self.la_entrerTemp.setText(QtGui.QApplication.translate("fenetre", "Entrez la température à convertir : ", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton_faren_cel.setText(QtGui.QApplication.translate("fenetre", "Conversion Fahrenheit / Celcius ", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioButton_cel_faren.setText(QtGui.QApplication.translate("fenetre", "Conversion Celcius / Fahrenheit ", None,
+                                                                    QtGui.QApplication.UnicodeUTF8))
+        self.la_result.setText(QtGui.QApplication.translate("fenetre", "Le résultat de la conversion est :", None, QtGui.QApplication.UnicodeUTF8))
+        fenetre.setTabText(fenetre.indexOf(self.temperature),QtGui.QApplication.translate("fenetre", "Température", None, QtGui.QApplication.UnicodeUTF8))
+        # pour l'onglet calculatrice

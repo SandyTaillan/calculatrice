@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Pour le moment, il n'y a qu'un seul fichier.
-# Le setupUi est maintenant dans un fichier séparé pour une meilleure visibilité
-# Le raccourci clavier pour "Enter" ne semble pas fonctionner
+# voir les messages d'erreurs -> exception quand on tape des lettres et non des chiffres
+# voir aussi pour n'avoir que 3 chiffres après la virgule
+
 
 from PySide import QtGui, QtCore
 from functools import partial
-from custom_ui.fenetrePrincipale import Ui_TabWidget
+from designcalculatrice.interface import design
 
-class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
+
+class MaSuperCalculatrice(QtGui.QTabWidget, design):
     def __init__(self):
-        super(MaCalculatrice, self).__init__()
+        super(MaSuperCalculatrice, self).__init__()
 
-        self.setupUi(tabwidget)
+        self.setupUiGene(fenetre)
         self.modificationSetupUi()
         self.setupConnections()
-        self.setupRaccourcisClaviers()
-
 
     def modificationSetupUi(self):
 
@@ -37,7 +36,10 @@ class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
             if isinstance(widget, QtGui.QPushButton) and widget.text().isdigit():
                 self.btns_nombres.append(widget)
 
+
     def setupConnections(self):
+        '''connection de l'interface graphique avec le programme principal'''
+        # partie calculatrice
         for btn in self.btns_nombres:
             btn.clicked.connect(partial(self.btnNombreClicked, str(btn.text())))
 
@@ -49,6 +51,11 @@ class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
         self.btn_egal.clicked.connect(self.calculOperation)
         self.btn_c.clicked.connect(self.supprimerResultat)
 
+        # partie temperature
+        self.radioButton_faren_cel.clicked.connect(self.actionFarCel)
+        self.radioButton_cel_faren.clicked.connect(self.actionCelFar)
+
+        QtCore.QMetaObject.connectSlotsByName(self.temperature)
 
     def setupRaccourcisClaviers(self):
         # On fait une boucle de 0 a 9 pour passer a travers les boutons de nombres
@@ -86,7 +93,6 @@ class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
             # On ajoute le texte du bouton a celui dans le LineEdit resultat
             self.resultat.setText(resultat + bouton)
 
-
     def btnOperationPressed(self, operation):
         """
         Fonction activee quand l'utilisateur appuie sur
@@ -104,13 +110,11 @@ class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
         # On reset le texte du LineEdit resultat
         self.resultat.setText('0')
 
-
     def supprimerResultat(self):
         """On reset le texte des deux LineEdit"""
 
         self.resultat.setText('0')
         self.operation.setText('')
-
 
     def calculOperation(self):
         """On calcule le resultat de l'operation en cours (quand l'utilisateur appuie sur egal)"""
@@ -129,12 +133,21 @@ class MaCalculatrice(Ui_TabWidget, QtGui.QWidget):
         self.resultat.setText(str(resultatOperation))
 
 
+    # calcul pour le convertisseur température
+    def actionFarCel(self):
+        resul_inter = (self.le_entrerTemp.text())
+        resul = (float(resul_inter) -32) / 1.8
+        self.tex_result.setText(str(resul))
+
+    def actionCelFar(self):
+        resul_inter = (self.le_entrerTemp.text())
+        resul = (float(resul_inter) * 1.8) + 32
+        self.tex_result.setText(str(resul))
 
 
 app = QtGui.QApplication([])
-tabwidget = QtGui.QTabWidget()
 
-MaCalculatrice()
-tabwidget.show()
-
-app.exec_()
+fenetre = QtGui.QTabWidget()
+MaSuperCalculatrice()
+fenetre.show()
+app.exec_()                           # le programme ne se terminera qu'en cliquant sur la croix de la fenêtre
