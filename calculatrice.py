@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# voir les messages d'erreurs -> exception quand on tape des lettres et non des chiffres
-# voir aussi pour n'avoir que 3 chiffres après la virgule
+# python 2.7
 
+# todo : voir aussi pour n'avoir que 3 chiffres après la virgule
+# todo : Améliorer le CSS
 
 from PySide import QtGui, QtCore
 from functools import partial
@@ -38,7 +39,7 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
 
 
     def setupConnections(self):
-        '''connection de l'interface graphique avec le programme principal'''
+        """connection de l'interface graphique avec le programme principal"""
         # partie calculatrice
         for btn in self.btns_nombres:
             btn.clicked.connect(partial(self.btnNombreClicked, str(btn.text())))
@@ -79,18 +80,18 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
         QtGui.QShortcut(QtGui.QKeySequence('Esc'), self, self.close)
 
     def btnNombreClicked(self, bouton):
-        """Fonction activee quand l'utilisateur appuie sur un numero (0-9)"""
+        """Fonction activée quand l'utilisateur appuie sur un numéro (0-9)"""
 
-        # On recupere le texte dans le LineEdit resultat
+        # On récupére le texte dans le LineEdit résultat
         resultat = str(self.resultat.text())
 
         if resultat == '0':
-            # Si le resultat est egal a 0 on met le nombre du bouton
-            # que l'utilisateur a presse dans le LineEdit resultat
+            # Si le résultat est égal a 0 on met le nombre du bouton
+            # que l'utilisateur a pressé dans le LineEdit résultat
             self.resultat.setText(bouton)
         else:
-            # Si le resultat contient autre chose que zero,
-            # On ajoute le texte du bouton a celui dans le LineEdit resultat
+            # Si le résultat contient autre chose que zero,
+            # On ajoute le texte du bouton à celui dans le LineEdit résultat
             self.resultat.setText(resultat + bouton)
 
     def btnOperationPressed(self, operation):
@@ -99,15 +100,15 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
         une touche d'operation (+, -, /, *)
         """
 
-        # On recupere le texte dans le LineEdit operation
+        # On récupére le texte dans le LineEdit opération
         operationText = str(self.operation.text())
-        # On recupere le texte dans le LineEdit resultat
+        # On récupére le texte dans le LineEdit résultat
         resultat = str(self.resultat.text())
 
-        # On additionne l'operation en cours avec le texte dans le resultat
-        # et on ajoute a la fin le signe de l'operation qu'on a choisie
+        # On additionne l'operation en cours avec le texte dans le résultat
+        # et on ajoute a la fin le signe de l'opération qu'on a choisie
         self.operation.setText(operationText + resultat + operation)
-        # On reset le texte du LineEdit resultat
+        # On reset le texte du LineEdit résultat
         self.resultat.setText('0')
 
     def supprimerResultat(self):
@@ -117,20 +118,25 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
         self.operation.setText('')
 
     def calculOperation(self):
-        """On calcule le resultat de l'operation en cours (quand l'utilisateur appuie sur egal)"""
+        """On calcule le résultat de l'opération en cours (quand l'utilisateur appuie sur égal)"""
 
-        # On recupere le texte dans le LineEdit resultat
-        resultat = str(self.resultat.text())
+        # On récupére le texte dans le LineEdit résultat
+        try:
+            resultat = str(self.resultat.text())
+            # On ajoute le nombre actuel dans le LineEdit résultat
+            # au LineEdit operation
+            self.operation.setText(self.operation.text() + resultat)
+            # On évalue le résultat de l'opération
+            resultatOperation = eval(str(self.operation.text()))
+            # On met le résultat final dans le LineEdit résultat
+            self.resultat.setText(str(resultatOperation))
 
-        # On ajoute le nombre actuel dans le LineEdit resultat
-        # au LineEdit operation
-        self.operation.setText(self.operation.text() + resultat)
+        except NameError:
+            # je suis obligée d'attendre un peu (3 secondes) pour que Erreur ait le temps de s'afficher
+            self.resultat.setText('Erreur')
+            self.timer = QtCore.QTimer()
+            self.timer.singleShot(3000, self.supprimerResultat)
 
-        # On evalue le resultat de l'operation
-        resultatOperation = eval(str(self.operation.text()))
-
-        # On met le resultat final dans le LineEdit resultat
-        self.resultat.setText(str(resultatOperation))
 
 
     # calcul pour le convertisseur température
