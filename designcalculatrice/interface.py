@@ -21,12 +21,23 @@ class design(object):
 
         fenetre.setCurrentIndex(0)  # indique l'onglet sur lequel ouvrira le programme
 
+        # lecture de la feuille css
+        f = QtCore.QFile("/design.qss")
+        f.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
+        ts = QtCore.QTextStream(f)
+        stylesheet = ts.readAll()
+        # on applique le style à l'application
+        self.setStyleSheet(stylesheet)
+
 
         # appel des fonctions de chaque onglet
 
         self.setupUiCalc(fenetre)
         self.setupUiTemp(fenetre)
         self.retranslateUi(fenetre)
+
+
+
 
     def setupUiTemp(self, fenetre):
 
@@ -59,12 +70,6 @@ class design(object):
         self.tex_result.setAlignment(QtCore.Qt.AlignJustify | QtCore.Qt.AlignHCenter)
 
         fenetre.addTab(self.temperature, "Température")  # création d'un onglet Calculatrice
-
-
-
-
-
-
 
     def setupUiCalc(self, fenetre):
         '''Création de l'interface graphique pour la calculatrice'''
