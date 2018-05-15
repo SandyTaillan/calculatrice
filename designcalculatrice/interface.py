@@ -22,8 +22,10 @@ class design(object):
         fenetre.setCurrentIndex(0)  # indique l'onglet sur lequel ouvrira le programme
 
         # lecture de la feuille css
-        f = QtCore.QFile("/design.qss")
+        f = QtCore.QFile("./design.css")
+
         f.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
+        print('bonjour')
         ts = QtCore.QTextStream(f)
         stylesheet = ts.readAll()
         # on applique le style à l'application
@@ -83,7 +85,7 @@ class design(object):
         self.gridLayout.setContentsMargins(6, -1, 6, -1)
 
         self.btn_1 = QtGui.QPushButton('1', self.calculatrice)  # assigne btn_1 à calculatrice
-        # self.btn_1.setObjectName("btn_1")                        # nomme btn_1 mais pas utile dans ce cas de figure
+        #self.btn_1.setObjectName("btn_1")                        # nomme btn_1 mais pas utile dans ce cas de figure
         self.gridLayout.addWidget(self.btn_1, 6, 0, 1, 1)  # indique l'endroit sur le gridLayout
         self.btn_1.setMinimumSize(QtCore.QSize(52, 52))  # indique la taille du bouton
 

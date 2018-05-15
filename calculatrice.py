@@ -21,13 +21,6 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
         self.modificationSetupUi()
         self.setupConnections()
 
-        # lecture de la feuille css
-        f = QtCore.QFile("/designcalculatrice/design.qss")
-        f.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
-        ts = QtCore.QTextStream(f)
-        stylesheet = ts.readAll()
-        # on applique le style à l'application
-        self.setStyleSheet(stylesheet)
 
 
     def modificationSetupUi(self):
