@@ -3,6 +3,7 @@
 
 from PySide import QtCore, QtGui
 
+
 class design(object):
 
     def setupUiGene(self, fenetre):
@@ -20,7 +21,16 @@ class design(object):
         fenetre.addTab(self.temperature, "Température")
 
         fenetre.setCurrentIndex(0)  # indique l'onglet sur lequel ouvrira le programme
+        fenetre.setStyleSheet(
+                              'QTabWidget {background-color: #2d3649; }'                                                          
+                              'QTabWidget::pane {background-color: #3c475e; border-top: 2px solid #C2C7CB;}'                         
+                              'QTabBar::tab {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #c2c7cb, stop: 0.4 #acb6c9, stop: 0.5 #b8b8b8, stop: 1.0 #c5c9e1); border: 2px solid #C4C4C3; border-bottom-color: #C2C7CB; border-top-left-radius: 4px; border-top-right-radius: 4px; min-width: 8ex; padding: 2px;}'
+                              'QTabBar::tab:selected, QTabBar::tab:hover {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0  #d7d7dc, stop: 0.4 #d2d2d2, stop: 0.5 #d8d9dd, stop: 1.0 #d7d7dc);}'
+                              'QTabBar::tab:selected {border-color: #8f97a9; border-bottom-color: #C2C7CB;}'
+                              'QTabBar::tab:!selected {margin-top: 2px;}'
+                              'QTabBar:selected {outline: 0px;}'
 
+        )
 
         # appel des fonctions de chaque onglet
 
@@ -28,9 +38,12 @@ class design(object):
         self.setupUiTemp(fenetre)
         self.retranslateUi(fenetre)
 
+
+
+
     def setupUiTemp(self, fenetre):
 
-        '''Création de l'interface graphique pour la température'''
+        """Création de l'interface graphique pour la température"""
 
         self.layout = QtGui.QGridLayout(self.temperature)           # création du gridlayout
 
@@ -60,14 +73,8 @@ class design(object):
 
         fenetre.addTab(self.temperature, "Température")  # création d'un onglet Calculatrice
 
-
-
-
-
-
-
     def setupUiCalc(self, fenetre):
-        '''Création de l'interface graphique pour la calculatrice'''
+        """Création de l'interface graphique pour la calculatrice"""
 
         self.calculatrice = QtGui.QWidget()
         fenetre.addTab(self.calculatrice, "Calculatrice")  # création d'un onglet Calculatrice
@@ -78,7 +85,7 @@ class design(object):
         self.gridLayout.setContentsMargins(6, -1, 6, -1)
 
         self.btn_1 = QtGui.QPushButton('1', self.calculatrice)  # assigne btn_1 à calculatrice
-        # self.btn_1.setObjectName("btn_1")                        # nomme btn_1 mais pas utile dans ce cas de figure
+        #self.btn_1.setObjectName("btn_1")                        # nomme btn_1 mais pas utile dans ce cas de figure
         self.gridLayout.addWidget(self.btn_1, 6, 0, 1, 1)  # indique l'endroit sur le gridLayout
         self.btn_1.setMinimumSize(QtCore.QSize(52, 52))  # indique la taille du bouton
 
@@ -185,6 +192,8 @@ class design(object):
 
         spacerItem2 = QtGui.QSpacerItem(1, 223, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 4, 4, 4, 1)
+
+
 
 
     # Problème de codage en UTF8 pour les accents

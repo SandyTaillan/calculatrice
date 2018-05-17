@@ -4,7 +4,8 @@
 # python 2.7
 
 # todo : voir aussi pour n'avoir que 3 chiffres après la virgule
-# todo : Améliorer le CSS
+# todo : Améliorer le CSS en faisant 2 feuilles de style : un sombre, un clair.
+# todo : Exception avec le convertisseur quand on oublie de taper un nbre
 
 from PySide import QtGui, QtCore
 from functools import partial
@@ -15,9 +16,21 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
     def __init__(self):
         super(MaSuperCalculatrice, self).__init__()
 
+
         self.setupUiGene(fenetre)
         self.modificationSetupUi()
         self.setupConnections()
+
+        # lecture de la feuille css
+        f = QtCore.QFile("./designcalculatrice/design.css")
+        f.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text)
+        ts = QtCore.QTextStream(f)
+        stylesheet = ts.readAll()
+        # on applique le style à l'application en précisant l'onglet
+        self.calculatrice.setStyleSheet(stylesheet)
+        self.temperature.setStyleSheet(stylesheet)
+
+
 
     def modificationSetupUi(self):
 
@@ -152,6 +165,8 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
 
 
 app = QtGui.QApplication([])
+
+
 
 fenetre = QtGui.QTabWidget()
 MaSuperCalculatrice()
