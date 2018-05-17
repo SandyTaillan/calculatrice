@@ -32,6 +32,8 @@ class design(object):
 
         )
 
+
+
         # appel des fonctions de chaque onglet
 
         self.setupUiCalc(fenetre)

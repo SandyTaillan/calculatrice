@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# python 2.7
+# python 2.7 et PySide
 
 # todo : voir aussi pour n'avoir que 3 chiffres après la virgule
 # todo : Améliorer le CSS en faisant 2 feuilles de style : un sombre, un clair.
-# todo : Exception avec le convertisseur quand on oublie de taper un nbre
 
 from PySide import QtGui, QtCore
 from functools import partial
@@ -153,15 +152,33 @@ class MaSuperCalculatrice(QtGui.QTabWidget, design):
 
 
     # calcul pour le convertisseur température
+    # todo : je répète deux fois le même code. Voir si je peux améliorer cela.
+
     def actionFarCel(self):
-        resul_inter = (self.le_entrerTemp.text())
-        resul = (float(resul_inter) -32) / 1.8
-        self.tex_result.setText(str(resul))
+        """Calcul pour convertir du Fahrenheit en Celcius"""
+        try:
+            resul_inter = (self.le_entrerTemp.text())
+            resul = (float(resul_inter) -32) / 1.8
+            self.tex_result.setText(str(resul))
+        except ValueError:
+            self.le_entrerTemp.setText('Veuillez entrer un nombre, merci.')
+            self.timer = QtCore.QTimer()
+            self.timer.singleShot(3000, self.le_entrerTemp.clear)
+
+
+
 
     def actionCelFar(self):
-        resul_inter = (self.le_entrerTemp.text())
-        resul = (float(resul_inter) * 1.8) + 32
-        self.tex_result.setText(str(resul))
+        """Calcul pour convertir du Celcius en Fahrenheit"""
+        try:
+            resul_inter = (self.le_entrerTemp.text())
+            resul = (float(resul_inter) * 1.8) + 32
+            self.tex_result.setText(str(resul))
+        except ValueError:
+            self.le_entrerTemp.setText('Veuillez entrer un nombre, merci.')
+            self.timer = QtCore.QTimer()
+            self.timer.singleShot(3000, self.le_entrerTemp.clear)
+
 
 
 app = QtGui.QApplication([])
