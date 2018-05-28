@@ -1,0 +1,31 @@
+QTabWidget {background-color: #272a31;}
+QTabWidget:pane {background-color: #1b2b33; border-top: 2px solid #54688a;}
+QTabBar:tab {color: #CFCFCF; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #256688, stop: 0.1 #377ca0, stop: 0.5 #29607c, stop: 1.0 #646a8e); border: 2px solid #16516f; border-bottom-color: #487389; border-top-left-radius: 4px; border-top-right-radius: 4px; min-width: 8ex; padding: 2px;}
+QTabBar:tab:selected, QTabBar::tab:hover {color: #e2ebef; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0  #39728f, stop: 0.4 #4982a0, stop: 0.5 #6e9db5, stop: 1.0 #39728f);}
+QTabBar:tab:selected {border-color: #3f80a2; border-bottom-color: #6e9db5;}
+QTabBar:tab:!selected {margin-top: 2px;}
+QTabBar:selected {outline: 0px;}
+
+QPushButton {color: #CFCFCF; outline: 0px;
+                border: 1px solid #7597a9;
+                border-top: 1px solid #5e718f;
+                border-left: 1px solid #3f5c6b;
+                border-style: outset;
+
+}
+QPushButton:hover {color: #919191;}
+QWidget QPushButton {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #515f76, stop: 0.4 #425066,
+                                 stop: 0.5 #39465c, stop: 1.0 #2e3a4e);
+                                 }
+
+QLineEdit {color: #ccdae1; background-color: #515f76;}
+QLineEdit {border: 1px solid #96b2c1;}
+QLineEdit:focus {border: 2px solid #377ca0;}
+QLabel {color: #c2c7cb;}
+QRadioButton {background-color: #1b2b33; color: #c2c7cb;}
+QRadioButton:pressed {background-color: #1b2b33; outline: 0px; border: 0;}
+QRadioButton:focus{background-color: #1b2b33;outline: 0px; border: 0;}
+
+
+
